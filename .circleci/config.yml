@@ -12,8 +12,7 @@ jobs:
           command: |
             apk add --no-progress git jq curl make
       - checkout
-      - setup_remote_docker:
-          version: 18.09.3
+      - setup_remote_docker
       - run: 
           name: install buildx
           command: |
@@ -23,6 +22,7 @@ jobs:
       - run: 
           name: install buildx
           command: |
+            docker context ls
             docker buildx ls
             docker buildx create --use
             #docker buildx inspect --bootstrap
