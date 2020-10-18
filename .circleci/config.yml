@@ -12,6 +12,7 @@ jobs:
             apk add --no-progress git jq curl make
       - checkout
       - setup_remote_docker
+          version: 18.09.3
       - run: 
           name: install buildx
           command: |
