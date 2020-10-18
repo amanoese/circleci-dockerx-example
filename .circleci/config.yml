@@ -1,4 +1,3 @@
-
 version: 2
 jobs:
   build:
@@ -8,27 +7,27 @@ jobs:
           DOCKER_BUILDKIT: "1"
     steps:
       - run:
-          name: pre
+          name: pre install
           command: |
             apk add --no-progress git jq curl make
       - checkout
       - setup_remote_docker
-      - run:
-          name: Build Docker image
+      - run: 
+          name: install buildx
           command: |
-            docker build -t amanoese/dockerx-ex .
-      - run: |
-          mkdir -vp ~/.docker/cli-plugins/
-          curl -sL -o ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.4.2/buildx-v0.4.2.linux-amd64
-          chmod a+x ~/.docker/cli-plugins/docker-buildx
-      - run: |
-          docker buildx version
-          docker buildx create --name xbuilder
-          docker buildx use xbuilder
-          docker buildx inspect --bootstrap
-          docker buildx ls
+            mkdir -vp ~/.docker/cli-plugins/
+            curl -sL -o ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.4.2/buildx-v0.4.2.linux-amd64
+            chmod a+x ~/.docker/cli-plugins/docker-buildx
+      - run: 
+          name: install buildx
+          command: |
+            docker buildx version
+            docker buildx create --name xbuilder
+            docker buildx use xbuilder
+            #docker buildx inspect --bootstrap
+            #docker buildx ls
       - run:
-          name: Buildx Docker image
+          name: buildx and Push dockerhub
           command: |
             echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
             docker buildx build --platform linux/amd64,linux/arm64 -t amanoese/dockerx-ex --push .
