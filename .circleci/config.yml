@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  buildx:
+    docker:
+      - image: docker:stable
+        environment:
+          DOCKER_BUILDKIT: "1"
+    steps:
+      - run:
+          name: pre install
+          command: |
+            apk add --no-progress git curl
+      - checkout
+      - setup_remote_docker
+      - run: 
+          name: install buildx
+          command: |
+            mkdir -vp ~/.docker/cli-plugins/
+            curl -sL -o ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.4.2/buildx-v0.4.2.linux-amd64
+            chmod a+x ~/.docker/cli-plugins/docker-buildx
+      - run:
+          name: buildx and Push dockerhub
+          command: |
+            echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
+            docker buildx build --platform linux/amd64,linux/arm64 -t ${DOCKER_USER}/dockerx-ex --push .
+workflows:
+  version: 2
+  commit-workflow:
+    jobs:
+      - buildx
