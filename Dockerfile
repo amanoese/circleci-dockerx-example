@@ -1,2 +1,2 @@
 FROM alpine:latest
-CMD echo 'Hello ?'
+CMD echo 'Hello buildx!'

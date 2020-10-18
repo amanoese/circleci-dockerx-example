@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: docker:stable
         environment:
-          DOCKER_BUILDKIT: "1"  # Enable Docker BuildKit
+          DOCKER_BUILDKIT: "1"
     steps:
       - run:
           name: pre
@@ -17,7 +17,18 @@ jobs:
           name: Build Docker image
           command: |
             docker build -t amanoese/dockerx-ex .
-            ##- run:
-            ##    name: Buildx Docker image
-            ##    command: |
-            ##      docker buildx build --platform linux/amd64,linux/arm64 -t amanoese/dockerx-ex --local .
+      - run: |
+          mkdir -vp ~/.docker/cli-plugins/
+          curl -sL -o ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.4.2/buildx-v0.4.2.linux-amd64
+          chmod a+x ~/.docker/cli-plugins/docker-buildx
+      - run: |
+          docker buildx version
+          docker buildx create --name xbuilder
+          docker buildx use xbuilder
+          docker buildx inspect --bootstrap
+          docker buildx ls
+      - run:
+          name: Buildx Docker image
+          command: |
+            echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
+            docker buildx build --platform linux/amd64,linux/arm64 -t amanoese/dockerx-ex --push .
