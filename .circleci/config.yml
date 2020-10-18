@@ -5,7 +5,6 @@ jobs:
       - image: docker:stable
         environment:
           DOCKER_BUILDKIT: "1"
-          DOCKER_CLI_EXPERIMENTAL: "enabled"
     steps:
       - run:
           name: pre install
