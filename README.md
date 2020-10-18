@@ -1,7 +1,7 @@
 circleci-dockerx-example
 ---
 
-[![CircleCI](https://circleci.com/gh/amanoees/circleci-dockerx-example/tree/master.svg?style=svg)](https://circleci.com/gh/amanoese/circleci-dockerx-example/tree/master)
+[![CircleCI](https://circleci.com/gh/amanoese/circleci-dockerx-example/tree/master.svg?style=svg)](https://circleci.com/gh/amanoese/circleci-dockerx-example/tree/master)
 
 This Repository is example what build Docker container for multi-architecture using docker buildx.
 After That Push Dockerhub.
