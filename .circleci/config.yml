@@ -9,7 +9,7 @@ jobs:
       - run:
           name: pre install
           command: |
-            apk add --no-progress git jq curl make
+            apk add --no-progress git curl
       - checkout
       - setup_remote_docker
       - run: 
