@@ -19,13 +19,12 @@ jobs:
             mkdir -vp ~/.docker/cli-plugins/
             curl -sL -o ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/v0.4.2/buildx-v0.4.2.linux-amd64
             chmod a+x ~/.docker/cli-plugins/docker-buildx
-      - run: 
-          name: install buildx
-          command: |
-            docker context ls
-            docker buildx ls
-            docker buildx create --use
-            #docker buildx inspect --bootstrap
+      #- run: 
+      #    name: setup buildx
+      #    command: |
+      #      docker buildx ls
+      #      docker buildx create --use
+      #      #docker buildx inspect --bootstrap
       - run:
           name: buildx and Push dockerhub
           command: |
