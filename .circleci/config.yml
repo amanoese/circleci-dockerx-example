@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  buildx:
     docker:
       - image: docker:stable
         environment:
@@ -31,3 +31,8 @@ jobs:
           command: |
             echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
             docker buildx build --platform linux/amd64,linux/arm64 -t amanoese/dockerx-ex --push .
+workflows:
+  version: 2
+  commit-workflow:
+    jobs:
+      - buildx
